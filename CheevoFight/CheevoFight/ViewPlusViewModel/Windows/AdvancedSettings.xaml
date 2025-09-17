@@ -1,0 +1,92 @@
+﻿<Window x:Class="CheevoFight.AdvancedSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheevoFight"
+        xmlns:tools="clr-namespace:CheevoFight.ViewPlusViewModel.Converters"
+        xmlns:parent="clr-namespace:CheevoFight.ViewPlusViewModel"
+        mc:Ignorable="d"
+        Title="CheevoFight" 
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <tools:GetLatestValidationError x:Key="GetLatestValidationError"/>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Margin" Value="20,20,20,20"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="Margin" Value="20,20,20,20"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Bottom"
+                                        Foreground="Red"
+                                        FontFamily="Arial"
+                                        FontSize="24"
+                                        FontStyle="Italic"
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding ElementName=cantBeEmptyAdorner,
+                                            Path=AdornedElement.(Validation.Errors),
+                                            Converter={StaticResource GetLatestValidationError}}"/>
+                                    <Border BorderBrush="Red"
+                                        BorderThickness="1"
+                                        Margin="-1">
+                                        <AdornedElementPlaceholder x:Name="cantBeEmptyAdorner"/>
+                                    </Border>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="20,20,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+            Name="LabelWindowName"
+            Content="Advanced Settings"
+            Margin="0,0,0,0"
+            HorizontalContentAlignment="Center"
+            FontSize="32" FontFamily="Arial"/>
+        <Label Grid.Row="1" Grid.Column="1"
+            Name="LabelCacheImagesAndTags"
+            ToolTip="Caching dramatically speeds up program on subsequent runs"
+            Content="Cache game images and tags:"/>
+        <CheckBox Grid.Row="1" Grid.Column="2"
+            Name="CheckBoxCacheImagesAndTags"
+            ToolTip="Caching dramatically speeds up program on subsequent runs"
+            VerticalAlignment="Center">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="3" ScaleY="3"/>
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <Button Grid.Row="2" Grid.Column="3"
+            Name="ButtonSave"
+            IsDefault="True"
+            Click="Save_Click"
+            Content="Save"
+            Width="100"
+            FontSize="28" FontFamily="Arial" Background="PaleGreen"/>
+    </Grid>
+</Window>
